@@ -25,12 +25,14 @@ App Developers
 .. _link: Robot Applications
 .. _link: rapp
 .. _link: rapps
+
 Robot Apps (rapps)
 ^^^^^^^^^^^^^^^^^^
 
 `Robot Applications`_ or rapps_ are applications which are robot agnostic, but in this context are distinctly different from Android Applications. **??** should there be a distinction, or should a rapp be any app (or software) which utilizes the capabilities in a robot agnostic fashion?
 
 .. _link: Capability
+
 Capabilities
 ^^^^^^^^^^^^
 
