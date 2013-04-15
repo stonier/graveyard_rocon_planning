@@ -1,5 +1,5 @@
-Capabilities
-============
+Design of Capabilities
+======================
 
 Capabilities are intended to be a higher level interface on top of ROS constructs like topics, services, and dynamic parameters, which are setup and tuned on a per robot basis by the robot developer. These capabilities are a common interface which can be used by both robot developers and robotic app developers to agree upon the ROS interface for a given "capability" required by the application and provided by the robot.
 
