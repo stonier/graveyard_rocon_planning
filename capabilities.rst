@@ -79,7 +79,7 @@ The simplest form of a requirement is where the thing requiring a Capability doe
 - A preference for the Capability Provider used when realizing the Capability
 - Remapping for any topics, services, actions, or parameters
 - If the Capability Provider can be shared or if a unique instance is required
-- If `Capability Providers`_ of child `Semantic Capabilities`_ are considered or not
+- If `Capability Providers`_ of related `Semantic Capabilities`_ are considered or not
 
 .. image:: images/general_interface_provider_relation.png
 
@@ -92,6 +92,12 @@ Semantic Capabilities redefine Capabilities
 
 .. image:: images/semantic_redefinitions.png
 
+The above diagram illustrates some of the constraints on these relationships:
 
+- `Semantic Capabilities`_ have their own `Capability Providers`_
+- `Capability Providers`_ can only implement one Capability or Semantic Capability
+- When `Requiring a Capability`_ the component making the requirement may indicate if `Capability Providers`_ of `Semantic Capabilities`_ which redefine the Capability being required are considered when selecting a Capability Provider.
+
+For example, on the last constraint listed, an Rapps_ might require a ``Camera``, but indicates that related `Semantic Capabilities`_'s `Capability Providers`_ should also be considered. So, in the above diagram ``FrontCamera_usb0`` should be considered as a Capability Provider of the general ``Camera`` Capability.
 
 
