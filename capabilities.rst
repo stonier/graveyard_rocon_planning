@@ -82,3 +82,14 @@ The simplest form of a requirement is where the thing requiring a Capability doe
 .. image:: images/general_interface_provider_relation.png
 
 The above diagram shows how Rapps_ and `Capability Providers`_ use the same "requires with properties" relation ship when requiring other Capabilities_.
+
+Semantic Capabilities redefine Capabilities
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`Semantic Capabilities`_ can redefine any one other Capability, injecting semantic meaning into the generic Capability by changing the name, and/or by remapping the topic names. An example of this would be the Semantic Capability `FrontCamera` which redefines the generic Capability `Camera`, remapping the `/camera` topics to `/front` topics.
+
+.. image:: images/semantic_redefinitions.png
+
+
+
+
