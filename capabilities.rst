@@ -49,7 +49,7 @@ Semantic Capabilities
 
 `Semantic Capabilities`_ are Capabilities_ which "inherit" their definition from other Capabilities_. They are defined by their name, another Capability, and remapping of the topics, services, etc... which are defined in the parent Capability. `Semantic Capabilities`_ are not extend-able, i.e. they cannot add additional topics, services, etc... to the list defined by the parent Capability.
 
-The purpose of `Semantic Capabilities`_ is to provide a simple way to provide the same interface, but under a name and name space which introduces some semantic meaning to the Interface. For example, FrontRGBCamera might be a Semantic Capability which inherits from the more generic, but identical RGBCamera Capability. FrontRGBCamera may also remap all topics which start with `/camera` in the RGBCamera Capability to topics which start with `/front_camera`.
+The purpose of `Semantic Capabilities`_ is to provide a simple way to provide the same interface, but under a name and name space which introduces some semantic meaning to the Interface. For example, FrontRGBCamera might be a Semantic Capability which inherits from the more generic, but identical RGBCamera Capability. FrontRGBCamera may also remap all topics which start with ``/camera`` in the RGBCamera Capability to topics which start with ``/front_camera``.
 
 `Semantic Capabilities`_ have their own providers separate from the parent Capability. Providers cannot provide for both a Capability and one of its child `Semantic Capabilities`_ because they might demand different topic, service, etc... interfaces.
 
@@ -86,7 +86,7 @@ The above diagram shows how Rapps_ and `Capability Providers`_ use the same "req
 Semantic Capabilities redefine Capabilities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`Semantic Capabilities`_ can redefine any one other Capability, injecting semantic meaning into the generic Capability by changing the name, and/or by remapping the topic names. An example of this would be the Semantic Capability `FrontCamera` which redefines the generic Capability `Camera`, remapping the `/camera` topics to `/front` topics.
+`Semantic Capabilities`_ can redefine any one other Capability, injecting semantic meaning into the generic Capability by changing the name, and/or by remapping the topic names. An example of this would be the Semantic Capability ``FrontCamera`` which redefines the generic Capability ``Camera``, remapping the ``/camera`` topics to ``/front`` topics.
 
 .. image:: images/semantic_redefinitions.png
 
