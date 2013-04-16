@@ -21,23 +21,64 @@ App Developers
 
 `App Developers`_ are the developers of robotics related applications. These developers differ from `Robot Developers`_ in that they write applications which are robot agnostic. The apps can depend on "capabilities" provided by robots to perform some task.
 
-Robot Apps (rapps)
-^^^^^^^^^^^^^^^^^^
+Rapps
+^^^^^
 
-`Robot Applications`_ or rapps_ are applications which are robot agnostic, but in this context are distinctly different from Android Applications. **??** should there be a distinction, or should a rapp be any app (or software) which utilizes the capabilities in a robot agnostic fashion?
+*Robot Applications* or Rapps_ are applications which are robot agnostic, but in this context are distinctly different from Android Applications. **??** should there be a distinction, or should a rapp be any app (or software) which utilizes the capabilities in a robot agnostic fashion?
+
+Rapps_ can require particular "capabilities" which should be provided by a robot in order for the Rapp to be compatible with the robot. The Rapps_ can also programatically query the "capabilities" and add conditions to the require. The conditions might include preferred implementations of the capabilities, whether sharing the capabilities is allowed, and if implementations of similar capabilities should be allowed or considered.
 
 Capabilities
 ^^^^^^^^^^^^
 
-Capabilities_ are interfaces consisting of many elements which are used by both robot developers and robotic app developers. Capabilities_ consist of these elements:
+Capabilities_, also known as Capability Interfaces, are interfaces consisting of many elements which are used by both robot developers and robotic app developers. Capabilities_ consist of these elements:
 
 - **name**: Name of the Capability Interface, e.g. *RGBCamera*, *Navigation*, or *MobileBase*
 - **topics**: ROS topics, described by their *name*, *type*, and whether or not the topic is expected to be inbound or outbound.
 - **services**: ROS services, described by their *name* and *type*.
 - **actions**: ROS actionlib actions, described by their *name* and *type*.
 - **dynamic_parameters**: ROS dynamic parameters, described by their *name* and *type*.
-- **requires**: list of other Capabilities_ which this Capability_ requires. **??** should capabilities be able to depend on other capabilities?
+- **requires**: list of other Capabilities_ which this Capability requires. **??** should capabilities be able to depend on other capabilities?
 
-Capabilities_ consist only of the interface declaration, and they do not implement the interface but instead serve as a common reference for both the app developer and the robot developer.
+Capabilities_ consist only of the interface declaration, and they do not implement the interface but instead serve as a common reference for both the app developer and the robot developer. Capabilities_ can depend on other Capabilities_ **??**.
+
+Only one instance of a particular Capability can be activated at one time. This comes out of the fact that the Capability defines topics, services, etc... which would naturally collide if two instances of the same Capability were executed at one time.
+
+Semantic Capabilities
+^^^^^^^^^^^^^^^^^^^^^
+
+`Semantic Capabilities`_ are Capabilities_ which "inherit" their definition from other Capabilities_. They are defined by their name, another Capability, and remapping of the topics, services, etc... which are defined in the parent Capability. `Semantic Capabilities`_ are not extend-able, i.e. they cannot add additional topics, services, etc... to the list defined by the parent Capability.
+
+The purpose of `Semantic Capabilities`_ is to provide a simple way to provide the same interface, but under a name and name space which introduces some semantic meaning to the Interface. For example, FrontRGBCamera might be a Semantic Capability which inherits from the more generic, but identical RGBCamera Capability. FrontRGBCamera may also remap all topics which start with `/camera` in the RGBCamera Capability to topics which start with `/front_camera`.
+
+`Semantic Capabilities`_ have their own providers separate from the parent Capability. Providers cannot provide for both a Capability and one of its child `Semantic Capabilities`_ because they might demand different topic, service, etc... interfaces.
+
+Capability Providers
+^^^^^^^^^^^^^^^^^^^^
+
+`Capability Providers`_ implement exactly one of the defined Capabilities_. `Capability Providers`_ consist of a name, some settings, and a launch file. The settings might contain things like whether the provider is a singleton or if it can be safely run along side a duplicate of the same provider (with remapping). A provider might declare itself as a singleton if it requires exclusive access to hardware. For example, you would not want to run a provider which launches the openni server twice, as it cannot open the same Kinect twice.
+
+The launch file has any required nodes which are not part of other Capabilities. The launch file also has any settings specific to this provider hard coded into it, like remapping, hardware addresses, or settings for the navigation stack (for example).
+
+When appropriate a Capability Provider can depend on other Capabilities (note that they cannot depend on other Capability Providers). Therefore part of the description of `Capability Providers`_ is what Capabilities_, if any, it requires. The conditions on the require relationship are the same as the conditions available to Rapps_ when they require a Capability.
+
+Concept Relationships
+---------------------
+
+This section explains the relationships between the defined Concepts.
+
+Requiring a Capability
+^^^^^^^^^^^^^^^^^^^^^^
+
+Both Rapps_ and `Capability Providers`_ can require Capabilities_ using the same mechanism.
+
+The simplest form of a requirement is where the thing requiring a Capability does not care which Capability Provider is used, nor does it wish to remap any of the topics, services, etc... defined in by the Capability. The requiring component can, however, specify the following:
+
+- A preference for the Capability Provider used when realizing the Capability
+- Remapping for any topics, services, actions, or parameters
+- If the Capability Provider can be shared or if a unique instance is required
+- If `Capability Providers`_ of child `Semantic Capabilities`_ are considered or not
 
 .. image:: images/general_interface_provider_relation.png
+
+The above diagram shows how Rapps_ and `Capability Providers`_ use the same "requires with properties" relation ship when requiring other Capabilities_.
