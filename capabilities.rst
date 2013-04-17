@@ -98,6 +98,14 @@ The above diagram illustrates some of the constraints on these relationships:
 - `Capability Providers`_ can only implement one Capability or Semantic Capability
 - When `Requiring a Capability`_ the component making the requirement may indicate if `Capability Providers`_ of `Semantic Capabilities`_ which redefine the Capability being required are considered when selecting a Capability Provider.
 
-For example, on the last constraint listed, an Rapps_ might require a ``Camera``, but indicates that related `Semantic Capabilities`_'s `Capability Providers`_ should also be considered. So, in the above diagram ``FrontCamera_usb0`` should be considered as a Capability Provider of the general ``Camera`` Capability.
+For example, on the last constraint listed, a Rapps_ might require a ``Camera``, but indicates that related `Semantic Capabilities`_'s `Capability Providers`_ should also be considered. So, in the above diagram ``FrontCamera_usb0`` should be considered as a Capability Provider of the general ``Camera`` Capability.
 
+Proposals
+=========
 
+Requiring should not allow remapping
+------------------------------------
+
+This proposal reverses the responsiblity of remapping, making the Rapps_ adhere to the Interface rather than allowing it to remap topics defined in the interface. Instead of the remapping of the `Capability Providers`_' topics and services away from the declared Capability Interface the Rapps_ would be responsible for modifying its own topics and services to match the Interface.
+
+This proposal breaks the current idea for implementating of `Semantic Capabilities`_. Currently the Semantic Capability has its own Capability Provider which only requires the redefined Capability with some optional remappings. If the Capability Provider of the Semantic Capability cannot remap the topics in the redefined Capability via a require then a new strategy for implementing those will have to be devised. Other options include having `Capability Providers`_ depend on each other with remappings, but this seems to be basically the same thing only making it not possible for Rapps_ to do remappings too.
