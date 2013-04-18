@@ -3,6 +3,8 @@ Design of Capabilities
 
 Capabilities are intended to be a higher level interface on top of ROS constructs like topics, services, and dynamic parameters, which are setup and tuned on a per robot basis by the robot developer. These capabilities are a common interface which can be used by both robot developers and robotic app developers to agree upon the ROS interface for a given "capability" required by the application and provided by the robot.
 
+The goal of these higher level interfaces is to make applications and solutions which build upon them more portable.
+
 .. contents::
 
 Conceptual Overview
@@ -33,7 +35,7 @@ Rapps_ can require particular "capabilities" which should be provided by a robot
 Capabilities
 ^^^^^^^^^^^^
 
-Capabilities_, also known as Capability Interfaces, are interfaces consisting of many elements which are used by both robot developers and robotic app developers. Capabilities_ consist of these elements:
+Capabilities_, also known as Capability Interfaces, are interfaces consisting of many elements which are used by both robot developers and robotic app developers. Capability Interfaces consist of these elements:
 
 - **name**: Name of the Capability Interface, e.g. *RGBCamera*, *Navigation*, or *MobileBase*
 - **topics**: ROS topics, described by their *name*, *type*, and whether or not the topic is expected to be inbound or outbound.
@@ -41,6 +43,7 @@ Capabilities_, also known as Capability Interfaces, are interfaces consisting of
 - **actions**: ROS actionlib actions, described by their *name* and *type*.
 - **dynamic_parameters**: ROS dynamic parameters, described by their *name* and *type*.
 - **requires**: list of other Capabilities_ which this Capability requires. **??** should capabilities be able to depend on other capabilities?
+- **description**: This is a free form text section which can contain a description and any expected behaviors or conventions that are otherwise not captured by the other parameters in the interface. This is not enforced or formally structured in any way, but simply serves a sort of minimal but highly localized documentation for the Interface.
 
 Capabilities_ consist only of the interface declaration, and they do not implement the interface but instead serve as a common reference for both the app developer and the robot developer. Capabilities_ can depend on other Capabilities_ **??**.
 
@@ -49,7 +52,10 @@ Only one instance of a particular Capability can be activated at one time. This 
 Semantic Capabilities
 ^^^^^^^^^^^^^^^^^^^^^
 
-`Semantic Capabilities`_ are Capabilities_ which "inherit" their definition from other Capabilities_. They are defined by their name, another Capability, and remapping of the topics, services, etc... which are defined in the parent Capability. `Semantic Capabilities`_ are not extend-able, i.e. they cannot add additional topics, services, etc... to the list defined by the parent Capability.
+`Semantic Capabilities`_ are Capabilities_ which redefine other Capabilities_. They do this by changing the name of another Capability, and optionally remapping some or all of the topics, services, etc... which are defined in the redefined Capability. `Semantic Capabilities`_ are not extend-able, i.e. they cannot add additional topics, services, etc... to the list defined by the redefined Capability. Therefore `Semantic Capabilities`_ are defined by:
+
+- **name**: This should be semantically more specific than the name of the Capability being redefined
+- **remappings**: ``from`` -> ``to`` mapping for topics, services, etc...
 
 The purpose of `Semantic Capabilities`_ is to provide a simple way to provide the same interface, but under a name and name space which introduces some semantic meaning to the Interface. For example, FrontRGBCamera might be a Semantic Capability which inherits from the more generic, but identical RGBCamera Capability. FrontRGBCamera may also remap all topics which start with ``/camera`` in the RGBCamera Capability to topics which start with ``/front_camera``.
 
