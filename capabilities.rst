@@ -57,7 +57,7 @@ Semantic Capabilities
 - **name**: This should be semantically more specific than the name of the Capability being redefined
 - **remappings**: ``from`` -> ``to`` mapping for topics, services, etc...
 
-The purpose of `Semantic Capabilities`_ is to provide a simple way to provide the same interface, but under a name and name space which introduces some semantic meaning to the Interface. For example, FrontRGBCamera might be a Semantic Capability which inherits from the more generic, but identical RGBCamera Capability. FrontRGBCamera may also remap all topics which start with ``/camera`` in the RGBCamera Capability to topics which start with ``/front_camera``.
+The purpose of `Semantic Capabilities`_ is to provide a simple way to provide the same interface, but under a name and name space which introduces some semantic meaning to the Interface. For example, FrontRGBCamera might be a Semantic Capability which redefines a more generic, but functionally identical, RGBCamera Capability. FrontRGBCamera may also remap all topics which start with ``/camera`` in the RGBCamera Capability to topics which start with ``/front_camera``.
 
 `Semantic Capabilities`_ have their own providers separate from the parent Capability. Providers cannot provide for both a Capability and one of its child `Semantic Capabilities`_ because they might demand different topic, service, etc... interfaces.
 
