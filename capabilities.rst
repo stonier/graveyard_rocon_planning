@@ -106,6 +106,79 @@ Proposals
 Requiring should not allow remapping
 ------------------------------------
 
-This proposal reverses the responsiblity of remapping, making the Rapps_ adhere to the Interface rather than allowing it to remap topics defined in the interface. Instead of the remapping of the `Capability Providers`_' topics and services away from the declared Capability Interface the Rapps_ would be responsible for modifying its own topics and services to match the Interface.
+Pro
+^^^
 
-This proposal breaks the current idea for implementating of `Semantic Capabilities`_. Currently the Semantic Capability has its own Capability Provider which only requires the redefined Capability with some optional remappings. If the Capability Provider of the Semantic Capability cannot remap the topics in the redefined Capability via a require then a new strategy for implementing those will have to be devised. Other options include having `Capability Providers`_ depend on each other with remappings, but this seems to be basically the same thing only making it not possible for Rapps_ to do remappings too.
+This proposal reverses the responsibility of remapping, making the Rapps_ adhere to the Interface rather than allowing it to remap topics defined in the interface. Instead of the remapping of the `Capability Providers`_' topics and services away from the declared Capability Interface the Rapps_ would be responsible for modifying its own topics and services to match the Interface.
+
+Con
+^^^
+
+This proposal breaks the current idea for implementation of `Semantic Capabilities`_. Currently the Semantic Capability has its own Capability Provider which only requires the redefined Capability with some optional remappings. If the Capability Provider of the Semantic Capability cannot remap the topics in the redefined Capability via a require then a new strategy for implementing those will have to be devised. Other options include having `Capability Providers`_ depend on each other with remappings, but this seems to be basically the same thing only making it not possible for Rapps_ to do remappings too.
+
+Decision
+^^^^^^^^
+
+The remapping of Capability Interfaces should remain and only be used for implementing `Semantic Capabilities`_. Though Rapps_ could technically still use the remapping of Capability Interfaces, the Rapps_ developer should prefer to remap their Rapp instead of remapping the Capability Interface.
+
+Providers can Implement Multiple Interfaces
+-------------------------------------------
+
+Pro
+^^^
+
+This makes single launch files more capable and allows coupling of similar Capabilities, or Capabilities which share functionality.
+
+Con
+^^^
+
+Adds complexity to the design.
+
+Decision
+^^^^^^^^
+
+TBD
+
+Multiple Instances of the Same Interface
+----------------------------------------
+
+Pro
+^^^
+
+Promotes reuse of generic Capability Interfaces.
+
+Con
+^^^
+
+Up to the robot developer to prevent collisions. Will need the 'requires with remapping' relationship.
+
+Decision
+^^^^^^^^
+
+TBD
+
+Rapps Should handle Capability Resolution and Bring-up
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The idea here is to have a 'capability server' which is responsible for launching capabilities and managing their life cycle (roslaunch server). The 'capability server' can also be queried about what capabilities are available, what providers are available for each capability and can generally introspect the state of the system.
+
+The Rapps_' dependencies would be defined by a program rather than static configuration, which is run at Rapp startup, and can query the 'capability server', ask it to launch capabilities, and then finally run the Rapp implementation. Basically this 'startup script', which each Rapp will define, is responsible for setting up the environment for the Rapp to work in, else fail.
+
+This is not required for `Capability Providers`_ because they (and the interfaces the might require) are setup statically by the robot developer. So this way they never need to "discover" the providers which are available and act conditionally.
+
+Pro
+^^^
+
+Allows Rapps to capture more complex dependencies which would be cumbersome to capture in a static configuration like with YAML or in a launch file. For example, a Rapp might declare "I need a FrontCamera, but failing that I'll take any Camera". Another example might be, "I want the Navigation Capability, provided by the BasicNavigation Capability Provider, but only if there is a LaserObservation provided by HokuyoLaser, otherwise I want Navigation provided by KinectTunedNavigation." This might not be a plausable example, but while thinking about what developers *might* want todo and how those things could be represented statically such that the application manager can parse one file, determine whether or not the Rapp is runnable becomes very complicated.
+
+Con
+^^^
+
+This proposal requires that code be executed before the manager can determine if the Rapp is runnable. It adds complexity to the Rapp definition, but simplifies the app manger.
+
+Decisions
+^^^^^^^^^
+
+TBD
+
+
