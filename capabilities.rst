@@ -158,7 +158,7 @@ Decision
 TBD
 
 Rapps Should handle Capability Resolution and Bring-up
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------
 
 The idea here is to have a 'capability server' which is responsible for launching capabilities and managing their life cycle (roslaunch server). The 'capability server' can also be queried about what capabilities are available, what providers are available for each capability and can generally introspect the state of the system.
 
