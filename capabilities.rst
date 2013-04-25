@@ -64,7 +64,14 @@ The purpose of `Semantic Capabilities`_ is to provide a simple way to provide th
 Capability Providers
 ^^^^^^^^^^^^^^^^^^^^
 
-`Capability Providers`_ implement exactly one of the defined Capabilities_. `Capability Providers`_ consist of a name, some settings, and a launch file. The settings might contain things like whether the provider is a singleton or if it can be safely run along side a duplicate of the same provider (with remapping). A provider might declare itself as a singleton if it requires exclusive access to hardware. For example, you would not want to run a provider which launches the openni server twice, as it cannot open the same Kinect twice.
+`Capability Providers`_ implement exactly one of the defined Capabilities_. `Capability Providers`_ consist of:
+
+- Name
+- Launch file
+- Whether or not the provider is a singleton
+- Dependencies on other Capabilities with remappings
+
+A provider might declare itself as a singleton if it requires exclusive access to hardware. For example, you would not want to run a provider which launches the openni server twice, as it cannot open the same Kinect twice.
 
 The launch file has any required nodes which are not part of other Capabilities. The launch file also has any settings specific to this provider hard coded into it, like remapping, hardware addresses, or settings for the navigation stack (for example).
 
